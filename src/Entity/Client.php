@@ -29,6 +29,31 @@ class Client
      */
     private $jobsector;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $contactName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $contactPosition;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $phoneContact;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $emailContact;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $notes;
+
 
 
     public function __construct()
@@ -63,6 +88,66 @@ class Client
     public function setJobsector(?Jobsector $jobsector): self
     {
         $this->jobsector = $jobsector;
+
+        return $this;
+    }
+
+    public function getContactName(): ?string
+    {
+        return $this->contactName;
+    }
+
+    public function setContactName(?string $contactName): self
+    {
+        $this->contactName = $contactName;
+
+        return $this;
+    }
+
+    public function getContactPosition(): ?string
+    {
+        return $this->contactPosition;
+    }
+
+    public function setContactPosition(?string $contactPosition): self
+    {
+        $this->contactPosition = $contactPosition;
+
+        return $this;
+    }
+
+    public function getPhoneContact(): ?string
+    {
+        return $this->phoneContact;
+    }
+
+    public function setPhoneContact(?string $phoneContact): self
+    {
+        $this->phoneContact = $phoneContact;
+
+        return $this;
+    }
+
+    public function getEmailContact(): ?string
+    {
+        return $this->emailContact;
+    }
+
+    public function setEmailContact(?string $emailContact): self
+    {
+        $this->emailContact = $emailContact;
+
+        return $this;
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(?string $notes): self
+    {
+        $this->notes = $notes;
 
         return $this;
     }
