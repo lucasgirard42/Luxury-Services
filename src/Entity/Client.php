@@ -25,7 +25,7 @@ class Client
     private $NameOfSociety;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Jobsector::class, inversedBy="client")
+     * @ORM\ManyToOne(targetEntity=JobSector::class, inversedBy="client")
      */
     private $jobsector;
 
@@ -87,12 +87,12 @@ class Client
         return $this;
     }
 
-    public function getJobsector(): ?Jobsector
+    public function getJobsector(): ?JobSector
     {
         return $this->jobsector;
     }
 
-    public function setJobsector(?Jobsector $jobsector): self
+    public function setJobsector(?JobSector $jobsector): self
     {
         $this->jobsector = $jobsector;
 

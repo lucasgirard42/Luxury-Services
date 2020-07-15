@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Jobsector;
+use App\Entity\JobSector;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Jobsector|null find($id, $lockMode = null, $lockVersion = null)
- * @method Jobsector|null findOneBy(array $criteria, array $orderBy = null)
- * @method Jobsector[]    findAll()
- * @method Jobsector[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method JobSector|null find($id, $lockMode = null, $lockVersion = null)
+ * @method JobSector|null findOneBy(array $criteria, array $orderBy = null)
+ * @method JobSector[]    findAll()
+ * @method JobSector[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class JobsectorRepository extends ServiceEntityRepository
+class JobSectorRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Jobsector::class);
+        parent::__construct($registry, JobSector::class);
     }
 
     // /**
-    //  * @return Jobsector[] Returns an array of Jobsector objects
+    //  * @return JobSector[] Returns an array of JobSector objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class JobsectorRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Jobsector
+    public function findOneBySomeField($value): ?JobSector
     {
         return $this->createQueryBuilder('j')
             ->andWhere('j.exampleField = :val')
