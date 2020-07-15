@@ -102,15 +102,22 @@ class Candidate
      */
     private $note;
 
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $candidateFileId;
+
 
     /**
      * @ORM\ManyToOne(targetEntity=jobSector::class, inversedBy="candidates")
      */
     private $jobSector;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=CandidateFile::class, inversedBy="candidates")
+     */
+    private $candidateFile;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Experience::class, inversedBy="candidates")
+     */
+    private $experience;
 
 
 
@@ -323,17 +330,7 @@ class Candidate
         return $this;
     }
 
-    public function getCandidateFileId(): ?\DateTimeInterface
-    {
-        return $this->candidateFileId;
-    }
 
-    public function setCandidateFileId(\DateTimeInterface $candidateFileId): self
-    {
-        $this->candidateFileId = $candidateFileId;
-
-        return $this;
-    }
 
     public function getJobSector(): ?jobSector
     {
@@ -343,6 +340,30 @@ class Candidate
     public function setJobSector(?jobSector $jobSector): self
     {
         $this->jobSector = $jobSector;
+
+        return $this;
+    }
+
+    public function getCandidateFile(): ?CandidateFile
+    {
+        return $this->candidateFile;
+    }
+
+    public function setCandidateFile(?CandidateFile $candidateFile): self
+    {
+        $this->candidateFile = $candidateFile;
+
+        return $this;
+    }
+
+    public function getExperience(): ?Experience
+    {
+        return $this->experience;
+    }
+
+    public function setExperience(?Experience $experience): self
+    {
+        $this->experience = $experience;
 
         return $this;
     }

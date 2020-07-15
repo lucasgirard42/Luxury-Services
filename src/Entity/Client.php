@@ -54,11 +54,18 @@ class Client
      */
     private $notes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=JobOffer::class, mappedBy="client")
+     */
+    private $jobOffer;
+
+ 
+
 
 
     public function __construct()
     {
-       
+        $this->jobOffer = new ArrayCollection();
     }
 
 
@@ -148,6 +155,37 @@ class Client
     public function setNotes(?string $notes): self
     {
         $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|JobOffer[]
+     */
+    public function getJobOffer(): Collection
+    {
+        return $this->jobOffer;
+    }
+
+    public function addJobOffer(JobOffer $jobOffer): self
+    {
+        if (!$this->jobOffer->contains($jobOffer)) {
+            $this->jobOffer[] = $jobOffer;
+            $jobOffer->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJobOffer(JobOffer $jobOffer): self
+    {
+        if ($this->jobOffer->contains($jobOffer)) {
+            $this->jobOffer->removeElement($jobOffer);
+            // set the owning side to null (unless already changed)
+            if ($jobOffer->getClient() === $this) {
+                $jobOffer->setClient(null);
+            }
+        }
 
         return $this;
     }
