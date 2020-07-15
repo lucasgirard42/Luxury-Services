@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\JobSectorRepository;
+use App\Repository\JobsectorRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=JobSectorRepository::class)
+ * @ORM\Entity(repositoryClass=JobsectorRepository::class)
  */
-class JobSector
+class Jobsector
 {
     /**
      * @ORM\Id()
@@ -18,23 +20,64 @@ class JobSector
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Candidate::class, inversedBy="jobSectorId")
+     * @ORM\Column(type="string", length=255)
      */
-    private $jobSector;
+    private $name;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Candidate::class, mappedBy="jobSector")
+     */
+    private $candidates;
+
+    public function __construct()
+    {
+        $this->candidates = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getJobSector(): ?Candidate
+    public function getName(): ?string
     {
-        return $this->jobSector;
+        return $this->name;
     }
 
-    public function setJobSector(?Candidate $jobSector): self
+    public function setName(string $name): self
     {
-        $this->jobSector = $jobSector;
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Candidate[]
+     */
+    public function getCandidates(): Collection
+    {
+        return $this->candidates;
+    }
+
+    public function addCandidate(Candidate $candidate): self
+    {
+        if (!$this->candidates->contains($candidate)) {
+            $this->candidates[] = $candidate;
+            $candidate->setJobSector($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidate(Candidate $candidate): self
+    {
+        if ($this->candidates->contains($candidate)) {
+            $this->candidates->removeElement($candidate);
+            // set the owning side to null (unless already changed)
+            if ($candidate->getJobSector() === $this) {
+                $candidate->setJobSector(null);
+            }
+        }
 
         return $this;
     }

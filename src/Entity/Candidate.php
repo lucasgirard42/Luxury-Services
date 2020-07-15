@@ -91,10 +91,6 @@ class Candidate
 
 
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $experienceId;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -112,15 +108,17 @@ class Candidate
     private $candidateFileId;
 
     /**
-     * @ORM\ManyToOne(targetEntity=JobSector::class)
+     * @ORM\ManyToOne(targetEntity=jobSector::class, inversedBy="candidates")
      */
     private $jobSector;
+
+
 
  
 
     public function __construct()
     {
-        $this->jobSectorId = new ArrayCollection();
+       
     }
 
 
@@ -300,17 +298,6 @@ class Candidate
 
 
 
-    public function getExperienceId(): ?string
-    {
-        return $this->experienceId;
-    }
-
-    public function setExperienceId(string $experienceId): self
-    {
-        $this->experienceId = $experienceId;
-
-        return $this;
-    }
 
     public function getShortDescription(): ?string
     {
@@ -348,17 +335,19 @@ class Candidate
         return $this;
     }
 
-    public function getJobSector(): ?JobSector
+    public function getJobSector(): ?jobSector
     {
         return $this->jobSector;
     }
 
-    public function setJobSector(?JobSector $jobSector): self
+    public function setJobSector(?jobSector $jobSector): self
     {
         $this->jobSector = $jobSector;
 
         return $this;
     }
+
+
 
 
 
