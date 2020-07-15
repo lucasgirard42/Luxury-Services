@@ -29,9 +29,18 @@ class Jobsector
      */
     private $candidates;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Client::class, mappedBy="jobsector")
+     */
+    private $client;
+
     public function __construct()
     {
+
+
+        
         $this->candidates = new ArrayCollection();
+        $this->client = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,6 +85,37 @@ class Jobsector
             // set the owning side to null (unless already changed)
             if ($candidate->getJobSector() === $this) {
                 $candidate->setJobSector(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Client[]
+     */
+    public function getClient(): Collection
+    {
+        return $this->client;
+    }
+
+    public function addClient(Client $client): self
+    {
+        if (!$this->client->contains($client)) {
+            $this->client[] = $client;
+            $client->setJobsector($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(Client $client): self
+    {
+        if ($this->client->contains($client)) {
+            $this->client->removeElement($client);
+            // set the owning side to null (unless already changed)
+            if ($client->getJobsector() === $this) {
+                $client->setJobsector(null);
             }
         }
 

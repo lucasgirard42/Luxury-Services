@@ -20,22 +20,26 @@ class Experience
     /**
      * @ORM\Column(type="date", nullable=true)
      */
-    private $dateCreated;
+    private $ExperienceTime;
+
+ 
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDateCreated(): ?\DateTimeInterface
+    public function getExperienceTime(): ?\DateTimeInterface
     {
-        return $this->dateCreated;
+        return $this->ExperienceTime;
     }
 
-    public function setDateCreated(?\DateTimeInterface $dateCreated): self
+    public function setExperienceTime(?\DateTimeInterface $ExperienceTime): self
     {
-        $this->dateCreated = $dateCreated;
+        $this->ExperienceTime = $ExperienceTime;
 
         return $this;
     }
+
+
 }
