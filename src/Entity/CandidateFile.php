@@ -20,17 +20,17 @@ class CandidateFile
     private $id;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="date", nullable=true , nullable=true)
      */
     private $dateCreated;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="date", nullable=true, nullable=true)
      */
     private $dateUpdated;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="date", nullable=true, nullable=true)
      */
     private $dateDeleted;
 

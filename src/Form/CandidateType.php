@@ -6,6 +6,8 @@ use App\Entity\Candidate;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 
 class CandidateType extends AbstractType
 {
@@ -19,7 +21,9 @@ class CandidateType extends AbstractType
             ->add('country')
             ->add('passport')
             ->add('cv')
-            ->add('profilPicture')
+            ->add('profilPicture', FileType::class, [
+                'mapped' => false
+            ])
             ->add('currentLocation')
             ->add('dateOfBirth')
             ->add('placeOfBirth')
@@ -29,8 +33,8 @@ class CandidateType extends AbstractType
             ->add('shortDescription')
             ->add('note')
             ->add('jobSector')
-            ->add('candidateFile')
-            ->add('experience')
+            // ->add('candidateFile')
+            // ->add('experience')
         ;
     }
 

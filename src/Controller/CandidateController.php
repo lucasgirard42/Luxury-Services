@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/candidate")
@@ -28,7 +29,7 @@ class CandidateController extends AbstractController
     /**
      * @Route("/new", name="candidate_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, SluggerInterface $slugger): Response
     {
         $candidate = new Candidate();
         $form = $this->createForm(CandidateType::class, $candidate);
@@ -36,6 +37,30 @@ class CandidateController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+
+            /** @var UploadedFile $file */
+            $file = $form->get('profilPicture')->getData();
+
+            if ($file){
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+               
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+                
+                try {
+                    $file->move(
+                        $this->getParameter('pictures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    $newFilename = 'error file upload';
+                }
+
+                $candidate->setProfilPicture($newFilename);
+            }
+
             $entityManager->persist($candidate);
             $entityManager->flush();
 
@@ -52,6 +77,7 @@ class CandidateController extends AbstractController
      * @Route("/{id}", name="candidate_show", methods={"GET"})
      */
     public function show(Candidate $candidate): Response
+    
     {
         return $this->render('candidate/show.html.twig', [
             'candidate' => $candidate,
@@ -67,8 +93,9 @@ class CandidateController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           
             $this->getDoctrine()->getManager()->flush();
-
+            
             return $this->redirectToRoute('candidate_index');
         }
 

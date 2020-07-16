@@ -36,6 +36,9 @@ class CandidateFileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $candidateFile->setFiles('pictures');
+
             $entityManager->persist($candidateFile);
             $entityManager->flush();
 
