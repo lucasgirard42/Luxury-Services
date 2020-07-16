@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\JobsectorRepository;
+use App\Repository\JobSectorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=JobsectorRepository::class)
+ * @ORM\Entity(repositoryClass=JobSectorRepository::class)
  */
 class JobSector
 {
@@ -157,5 +157,9 @@ class JobSector
         }
 
         return $this;
+    }
+    public  function __toString()
+    {
+        return $this->getName();
     }
 }

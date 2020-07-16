@@ -105,7 +105,7 @@ class Candidate
 
 
     /**
-     * @ORM\ManyToOne(targetEntity=jobSector::class, inversedBy="candidates")
+     * @ORM\ManyToOne(targetEntity=JobSector::class, inversedBy="candidates")
      */
     private $jobSector;
 
@@ -332,12 +332,12 @@ class Candidate
 
 
 
-    public function getJobSector(): ?jobSector
+    public function getJobSector(): ?JobSector
     {
         return $this->jobSector;
     }
 
-    public function setJobSector(?jobSector $jobSector): self
+    public function setJobSector(?JobSector $jobSector): self
     {
         $this->jobSector = $jobSector;
 

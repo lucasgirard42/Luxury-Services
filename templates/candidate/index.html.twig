@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidate index{% endblock %}
+
+{% block body %}
+    <h1>Candidate index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Gender</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Address</th>
+                <th>Country</th>
+                <th>Passport</th>
+                <th>Cv</th>
+                <th>ProfilPicture</th>
+                <th>CurrentLocation</th>
+                <th>DateOfBirth</th>
+                <th>PlaceOfBirth</th>
+                <th>Email</th>
+                <th>ConfirmEmail</th>
+                <th>Availability</th>
+                <th>ShortDescription</th>
+                <th>Note</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for candidate in candidates %}
+            <tr>
+                <td>{{ candidate.id }}</td>
+                <td>{{ candidate.gender }}</td>
+                <td>{{ candidate.firstName }}</td>
+                <td>{{ candidate.lastName }}</td>
+                <td>{{ candidate.address }}</td>
+                <td>{{ candidate.country }}</td>
+                <td>{{ candidate.passport ? 'Yes' : 'No' }}</td>
+                <td>{{ candidate.cv }}</td>
+                <td>{{ candidate.profilPicture }}</td>
+                <td>{{ candidate.currentLocation }}</td>
+                <td>{{ candidate.dateOfBirth ? candidate.dateOfBirth|date('Y-m-d') : '' }}</td>
+                <td>{{ candidate.placeOfBirth }}</td>
+                <td>{{ candidate.email }}</td>
+                <td>{{ candidate.confirmEmail }}</td>
+                <td>{{ candidate.availability ? 'Yes' : 'No' }}</td>
+                <td>{{ candidate.shortDescription }}</td>
+                <td>{{ candidate.note }}</td>
+                <td>
+                    <a href="{{ path('candidate_show', {'id': candidate.id}) }}">show</a>
+                    <a href="{{ path('candidate_edit', {'id': candidate.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="18">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('candidate_new') }}">Create new</a>
+{% endblock %}

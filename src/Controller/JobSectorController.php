@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\JobSector;
 use App\Form\JobSectorType;
-use App\Repository\JobsectorRepository;
+use App\Repository\JobSectorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +18,7 @@ class JobSectorController extends AbstractController
     /**
      * @Route("/", name="job_sector_index", methods={"GET"})
      */
-    public function index(JobsectorRepository $jobsectorRepository): Response
+    public function index(JobSectorRepository $jobsectorRepository): Response
     {
         return $this->render('job_sector/index.html.twig', [
             'job_sectors' => $jobsectorRepository->findAll(),
