@@ -234,6 +234,6 @@ class JobOffer
 
         return $this;
     }
-
+  
 
 }

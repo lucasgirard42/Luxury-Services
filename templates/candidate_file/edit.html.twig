@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit CandidateFile{% endblock %}
+
+{% block body %}
+    <h1>Edit CandidateFile</h1>
+
+    {{ include('candidate_file/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('candidate_file_index') }}">back to list</a>
+
+    {{ include('candidate_file/_delete_form.html.twig') }}
+{% endblock %}
