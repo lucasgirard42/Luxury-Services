@@ -20,7 +20,9 @@ class CandidateType extends AbstractType
             ->add('address')
             ->add('country')
             ->add('passport')
-            ->add('cv')
+            ->add('cv', FileType::class, [
+                'mapped' => false
+            ])
             ->add('profilPicture', FileType::class, [
                 'mapped' => false
             ])

@@ -41,23 +41,11 @@ class CandidateController extends AbstractController
 
             /** @var UploadedFile $file */
             $file = $form->get('profilPicture')->getData();
+            $file = $form->get('cv')->getData();
+           
 
             if ($file){
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-               
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-
-                
-                try {
-                    $file->move(
-                        $this->getParameter('pictures_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    $newFilename = 'error file upload';
-                }
-
+               $filename = $this->saveUploadedFile(lkmlkml);
                 $candidate->setProfilPicture($newFilename);
             }
 
@@ -73,6 +61,25 @@ class CandidateController extends AbstractController
         ]);
     }
 
+
+
+    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+               
+    $safeFilename = $slugger->slug($originalFilename);
+    $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+    
+    try {
+        $file->move(
+            $this->getParameter('pictures_directory'),
+            $newFilename
+        );
+    } catch (FileException $e) {
+        $newFilename = 'error file upload';
+    }
+
+
+    
     /**
      * @Route("/{id}", name="candidate_show", methods={"GET"})
      */
