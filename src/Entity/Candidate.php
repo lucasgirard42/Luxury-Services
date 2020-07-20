@@ -80,15 +80,6 @@ class Candidate
      */
     private $placeOfBirth;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $email;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $confirmEmail;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -124,6 +115,11 @@ class Candidate
      * @ORM\ManyToOne(targetEntity=Experience::class, inversedBy="candidates")
      */
     private $experience;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="candidate", cascade={"persist", "remove"})
+     */
+    private $user;
 
 
 
@@ -273,29 +269,7 @@ class Candidate
         return $this;
     }
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getConfirmEmail(): ?string
-    {
-        return $this->confirmEmail;
-    }
-
-    public function setConfirmEmail(string $confirmEmail): self
-    {
-        $this->confirmEmail = $confirmEmail;
-
-        return $this;
-    }
 
     public function getAvailability(): ?bool
     {
@@ -308,8 +282,6 @@ class Candidate
 
         return $this;
     }
-
-
 
 
     public function getShortDescription(): ?string
@@ -370,6 +342,18 @@ class Candidate
     public function setExperience(?Experience $experience): self
     {
         $this->experience = $experience;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

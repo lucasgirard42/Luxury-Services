@@ -29,8 +29,6 @@ class CandidateType extends AbstractType
             ->add('currentLocation')
             ->add('dateOfBirth')
             ->add('placeOfBirth')
-            ->add('email')
-            ->add('confirmEmail')
             ->add('availability')
             ->add('shortDescription')
             ->add('note')

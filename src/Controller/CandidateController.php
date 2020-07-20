@@ -8,6 +8,7 @@ use App\Repository\CandidateRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -25,6 +26,29 @@ class CandidateController extends AbstractController
             'candidates' => $candidateRepository->findAll(),
         ]);
     }
+    
+    /**
+     * 
+     */
+    private function saveUploadFile(UploadedFile $file, string $directory, SluggerInterface $slugger)
+    {
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+               
+        $safeFilename = $slugger->slug($originalFilename);
+        $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+        try {
+            $file->move(
+                $directory,
+                $newFilename
+            );
+        } catch (FileException $e) {
+            $newFilename = 'error file upload';
+        }
+
+        return $newFilename;
+    }
+
 
     /**
      * @Route("/new", name="candidate_new", methods={"GET","POST"})
@@ -41,12 +65,24 @@ class CandidateController extends AbstractController
 
             /** @var UploadedFile $file */
             $file = $form->get('profilPicture')->getData();
-            $file = $form->get('cv')->getData();
-           
-
             if ($file){
-               $filename = $this->saveUploadedFile(lkmlkml);
+                $newFilename = $this->saveUploadFile(
+                    $file, 
+                    $this->getParameter('pictures_directory'),
+                    $slugger
+                );
                 $candidate->setProfilPicture($newFilename);
+            }
+
+            $file = $form->get('cv')->getData();
+            if ($file){
+                $newFilename = $this->saveUploadFile(
+                    $file, 
+                    $this->getParameter('pictures_directory'),
+                    $slugger
+                );
+                
+                $candidate->setCv($newFilename);
             }
 
             $entityManager->persist($candidate);
@@ -61,25 +97,6 @@ class CandidateController extends AbstractController
         ]);
     }
 
-
-
-    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-               
-    $safeFilename = $slugger->slug($originalFilename);
-    $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-
-    
-    try {
-        $file->move(
-            $this->getParameter('pictures_directory'),
-            $newFilename
-        );
-    } catch (FileException $e) {
-        $newFilename = 'error file upload';
-    }
-
-
-    
     /**
      * @Route("/{id}", name="candidate_show", methods={"GET"})
      */

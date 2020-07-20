@@ -104,3 +104,57 @@ php bin/console debug:route
  ```
 ## liens vers la doc de symfony
     https://symfony.com/doc/current/controller/upload_file.html#creating-an-uploader-service
+
+## save
+
+    /**
+     * @Route("/new", name="candidate_new", methods={"GET","POST"})
+     */
+    public function new(Request $request, SluggerInterface $slugger): Response
+    {
+        $candidate = new Candidate();
+        $form = $this->createForm(CandidateType::class, $candidate);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+
+
+            /** @var UploadedFile $file */
+            $file = $form->get('profilPicture')->getData();
+            $file = $form->get('cv')->getData();
+           
+
+            if ($file){
+               $filename = $this->saveUploadedFile($savefile);
+                $candidate->setProfilPicture($newFilename);
+            }
+
+            $entityManager->persist($candidate);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('candidate_index');
+        }
+
+        return $this->render('candidate/new.html.twig', [
+            'candidate' => $candidate,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+
+    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+               
+    $safeFilename = $slugger->slug($originalFilename);
+    $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+    
+    try {
+        $file->move(
+            $this->getParameter('pictures_directory'),
+            $newFilename
+        );
+    } catch (FileException $e) {
+        $newFilename = 'error file upload';
+    }
