@@ -6,6 +6,7 @@ use App\Entity\CandidateFile;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class CandidateFileType extends AbstractType
 {
@@ -15,7 +16,9 @@ class CandidateFileType extends AbstractType
             ->add('dateCreated')
             ->add('dateUpdated')
             ->add('dateDeleted')
-            ->add('files')
+            ->add('files', FileType::class, [
+                'mapped' => false
+            ])
         ;
     }
 

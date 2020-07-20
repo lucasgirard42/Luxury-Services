@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @Route("/candidatefile")
@@ -26,9 +28,31 @@ class CandidateFileController extends AbstractController
     }
 
     /**
+     * 
+     */
+    private function saveUploadFile(UploadedFile $file, string $directory, SluggerInterface $slugger)
+    {
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+               
+        $safeFilename = $slugger->slug($originalFilename);
+        $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+        try {
+            $file->move(
+                $directory,
+                $newFilename
+            );
+        } catch (FileException $e) {
+            $newFilename = 'error file upload';
+        }
+
+        return $newFilename;
+    }
+
+    /**
      * @Route("/new", name="candidate_file_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,  SluggerInterface $slugger): Response
     {
         $candidateFile = new CandidateFile();
         $form = $this->createForm(CandidateFileType::class, $candidateFile);
@@ -36,8 +60,21 @@ class CandidateFileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            
+            /** @var UploadedFile $file */
+            $file = $form->get('files')->getData();
+            if ($file){
+                $newFilename = $this->saveUploadFile(
+                    $file, 
+                    $this->getParameter('pictures_directory'),
+                    $slugger
+                );
+                $candidateFile->setFiles($newFilename);
+            }
 
-            $candidateFile->setFiles('pictures');
+           
+
+           
 
             $entityManager->persist($candidateFile);
             $entityManager->flush();
