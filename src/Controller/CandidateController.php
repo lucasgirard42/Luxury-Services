@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 /**
@@ -20,10 +21,12 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class CandidateController extends AbstractController
 {
     /**
-     * @Route("/", name="candidate_index", methods={"GET"})
+     * @Route("/list", name="candidate_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(CandidateRepository $candidateRepository): Response
-    {
+    {   
+
         return $this->render('candidate/index.html.twig', [
             'candidates' => $candidateRepository->findAll(),
         ]);
@@ -56,13 +59,22 @@ class CandidateController extends AbstractController
      * @Route("/new", name="candidate_new", methods={"GET","POST"})
      */
     public function new(Request $request, SluggerInterface $slugger): Response
-    {
+    {   
+        $user = $this->getUser();
+        if ($user->getCandidate() instanceof Candidate){
+            return $this->redirectToRoute('candidate_edit');
+        }
+        
         $candidate = new Candidate();
         $form = $this->createForm(CandidateType::class, $candidate);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            
+
+            $candidate->setUser($user);
 
 
             /** @var UploadedFile $file */
@@ -98,11 +110,15 @@ class CandidateController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    public function showUser(): Response         //faire une fontion show>USer
+    /**
+     * @Route("/", name="candidate_show_user", methods={"GET"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+   public function showUser(): Response         //faire une fontion show>USer
     {   
         /** @var User $user */
         $user = $this->getUser();
+
         $candidate = $user->getCandidate();
         if (!isset($candidate))
         {
@@ -110,7 +126,7 @@ class CandidateController extends AbstractController
         }
 
 
-        return $this->render('candidate/show', [
+        return $this->render('candidate/show.html.twig', [
             'candidate' => $candidate,
         ]);
     }
@@ -118,7 +134,7 @@ class CandidateController extends AbstractController
      * @Route("/{id}", name="candidate_show", methods={"GET"})
      */
     public function show(Candidate $candidate): Response
-    {
+    {   
         return $this->render('candidate/show.html.twig', [
             'candidate' => $candidate,
         ]);
@@ -126,6 +142,7 @@ class CandidateController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="candidate_edit", methods={"GET","POST"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function edit(Request $request, Candidate $candidate): Response
     {
