@@ -21,7 +21,6 @@ php bin/console debug:route
 ```shell
  composer require symfony/apache-pack 
 ```
-
 ## symfony error convert objet to string
 ```shell
         public  function __toString()
