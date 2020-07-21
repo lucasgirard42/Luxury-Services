@@ -157,3 +157,9 @@ php bin/console debug:route
     } catch (FileException $e) {
         $newFilename = 'error file upload';
     }
+
+## create a new security voter class
+```shell
+php bin/console make:voter
+```
+

@@ -60,3 +60,9 @@ if ($this->getIsAdmin())
 ## Dans phpmyadmin edité Is_admin
 ```SHELL
     Edite -> Is_admin-> mettre la valeur en 1
+```
+
+## create a new security voter class
+```shell
+php bin/console make:voter
+```

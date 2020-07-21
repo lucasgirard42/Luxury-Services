@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Candidate;
+use App\Entity\User;
 use App\Form\CandidateType;
 use App\Repository\CandidateRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 /**
  * @Route("/candidate")
@@ -97,11 +99,25 @@ class CandidateController extends AbstractController
         ]);
     }
 
+    public function showUser(): Response         //faire une fontion show>USer
+    {   
+        /** @var User $user */
+        $user = $this->getUser();
+        $candidate = $user->getCandidate();
+        if (!isset($candidate))
+        {
+            return $this->redirectToRoute('candidate_new');
+        }
+
+
+        return $this->render('candidate/show', [
+            'candidate' => $candidate,
+        ]);
+    }
     /**
      * @Route("/{id}", name="candidate_show", methods={"GET"})
      */
     public function show(Candidate $candidate): Response
-    
     {
         return $this->render('candidate/show.html.twig', [
             'candidate' => $candidate,
