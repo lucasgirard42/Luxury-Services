@@ -6,7 +6,26 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+{% block nav %}
+<a href="{{ path('home') }}">home</a>
+<a href="{{ path('app_register') }}">register</a>
+<a href="{{ path('app_login') }}">login</a>
+<a href="{{ path('app_logout') }}">logout</a>
+<a href="{{ path('candidate_index') }}">candidate list</a>
+<a href="{{ path('candidate_new') }}">candidate new</a>
+<a href="{{ path('candidate_show_user') }}">candidate show user</a>
+
+<a href="{{ path('client_index') }}">client</a>
+<a href="{{ path('job_offer_index') }}">Job offer</a>
+<a href="{{ path('job_sector_index') }}">Job sector</a>
+<a href="{{ path('job_type_index') }}">Job type</a>
+<a href="{{ path('experience_index') }}">Experience</a>
+<a href="{{ path('candidate_file_index') }}">Candidate file</a>
+
+
+{% endblock %}
+{% block body %}
+{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
 </html>

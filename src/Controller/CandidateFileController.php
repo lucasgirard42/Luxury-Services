@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/candidatefile")
@@ -19,6 +20,7 @@ class CandidateFileController extends AbstractController
 {
     /**
      * @Route("/", name="candidate_file_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(CandidateFileRepository $candidateFileRepository): Response
     {

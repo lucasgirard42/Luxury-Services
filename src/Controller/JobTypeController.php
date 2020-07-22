@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/job/type")
@@ -17,6 +18,7 @@ class JobTypeController extends AbstractController
 {
     /**
      * @Route("/", name="job_type_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(JobTypeRepository $jobTypeRepository): Response
     {

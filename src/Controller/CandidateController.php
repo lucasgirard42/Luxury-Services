@@ -57,12 +57,16 @@ class CandidateController extends AbstractController
 
     /**
      * @Route("/new", name="candidate_new", methods={"GET","POST"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function new(Request $request, SluggerInterface $slugger): Response
     {   
         $user = $this->getUser();
         if ($user->getCandidate() instanceof Candidate){
-            return $this->redirectToRoute('candidate_edit');
+             $candidateId=$user->getCandidate()->getId();
+            return $this->redirectToRoute('candidate_edit',[
+                'id'=> $candidateId
+            ]);
         }
         
         $candidate = new Candidate();
@@ -102,7 +106,7 @@ class CandidateController extends AbstractController
             $entityManager->persist($candidate);
             $entityManager->flush();
 
-            return $this->redirectToRoute('candidate_index');
+            return $this->redirectToRoute('candidate_show_user');
         }
 
         return $this->render('candidate/new.html.twig', [
