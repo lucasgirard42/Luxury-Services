@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 
 
 class CandidateType extends AbstractType
@@ -27,7 +28,10 @@ class CandidateType extends AbstractType
                 'mapped' => false
             ])
             ->add('currentLocation')
-            ->add('dateOfBirth')
+            ->add('dateOfBirth', BirthdayType::class, [
+                'widget' => 'single_text',
+                'required' => 'false'
+            ])
             ->add('placeOfBirth')
             ->add('availability')
             ->add('shortDescription')

@@ -117,7 +117,7 @@ class Candidate
     private $experience;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="candidate", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="candidate")
      */
     private $user;
 
