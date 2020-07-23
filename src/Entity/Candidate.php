@@ -122,7 +122,7 @@ class Candidate
     private $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity=jobOffer::class, inversedBy="candidates")
+     * @ORM\ManyToMany(targetEntity=JobOffer::class, inversedBy="candidates")
      */
     private $jobApplication;
 
@@ -364,14 +364,14 @@ class Candidate
     }
 
     /**
-     * @return Collection|jobOffer[]
+     * @return Collection|JobOffer[]
      */
     public function getJobApplication(): Collection
     {
         return $this->jobApplication;
     }
 
-    public function addJobApplication(jobOffer $jobApplication): self
+    public function addJobApplication(JobOffer $jobApplication): self
     {
         if (!$this->jobApplication->contains($jobApplication)) {
             $this->jobApplication[] = $jobApplication;
@@ -380,7 +380,7 @@ class Candidate
         return $this;
     }
 
-    public function removeJobApplication(jobOffer $jobApplication): self
+    public function removeJobApplication(JobOffer $jobApplication): self
     {
         if ($this->jobApplication->contains($jobApplication)) {
             $this->jobApplication->removeElement($jobApplication);

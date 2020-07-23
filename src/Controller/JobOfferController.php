@@ -4,13 +4,16 @@ namespace App\Controller;
 
 use App\Entity\JobOffer;
 use App\Entity\JobSector;
+use App\Entity\Candidate;
 use App\Form\JobOfferType;
 use App\Repository\JobOfferRepository;
+use App\Repository\JobSectorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @Route("/job/offer")
@@ -31,11 +34,37 @@ class JobOfferController extends AbstractController
     /**
      * @Route("/", name="jobOffers", methods={"GET"})
      */
-    public function jobOffers(JobOfferRepository $jobOfferRepository): Response
-    {
-        $jobOffers = [new JobOffer()];
-        $jobSectors = [new JobSector()];
-        $applications = [new JobOffer()];
+    public function jobOffers(JobOfferRepository $jobOfferRepository, JobSectorRepository $jobsectorRepository): Response
+    {   
+        
+        $user =  $this->getUser();  
+        //redirect anonymous to login form.
+        if (!($user instanceof UserInterface)){       
+            return $this->redirectToRoute('app_login');      
+        }
+
+        $candidate = $user->getCandidate();
+
+        
+        $jobOffers = $jobOfferRepository->findBy([],null,20,null);
+        $jobSectors = $jobsectorRepository->findAll();
+        
+        dump($jobOffers);
+
+        foreach($jobOffers as $jobOffer)
+        {
+            $candidate->addJobApplication($jobOffer);
+        }
+        
+        dump($candidate);
+        $applications = [];
+        if ($candidate instanceof Candidate){
+            $applications = $candidate->getJobApplication();
+        }
+       
+
+        // $applications = $candidate->getJobApplication()use App\Entity\JobSector;
+        
         return $this->render('job_offer/job_offer.html.twig', [
             'job_offers' => $jobOffers,
             'job_sectors' => $jobSectors,
