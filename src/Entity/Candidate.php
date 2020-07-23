@@ -121,13 +121,18 @@ class Candidate
      */
     private $user;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=jobOffer::class, inversedBy="candidates")
+     */
+    private $jobApplication;
+
 
 
  
 
     public function __construct()
     {
-       
+        $this->jobApplication = new ArrayCollection();
     }
 
 
@@ -354,6 +359,32 @@ class Candidate
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|jobOffer[]
+     */
+    public function getJobApplication(): Collection
+    {
+        return $this->jobApplication;
+    }
+
+    public function addJobApplication(jobOffer $jobApplication): self
+    {
+        if (!$this->jobApplication->contains($jobApplication)) {
+            $this->jobApplication[] = $jobApplication;
+        }
+
+        return $this;
+    }
+
+    public function removeJobApplication(jobOffer $jobApplication): self
+    {
+        if ($this->jobApplication->contains($jobApplication)) {
+            $this->jobApplication->removeElement($jobApplication);
+        }
 
         return $this;
     }

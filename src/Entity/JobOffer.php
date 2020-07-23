@@ -79,11 +79,16 @@ class JobOffer
      */
     private $dateCreation;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Candidate::class, mappedBy="jobApplication")
+     */
+    private $candidates;
+
  
 
     public function __construct()
     {
-       
+        $this->candidates = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,6 +236,34 @@ class JobOffer
     public function setDateCreation(?\DateTimeInterface $dateCreation): self
     {
         $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Candidate[]
+     */
+    public function getCandidates(): Collection
+    {
+        return $this->candidates;
+    }
+
+    public function addCandidate(Candidate $candidate): self
+    {
+        if (!$this->candidates->contains($candidate)) {
+            $this->candidates[] = $candidate;
+            $candidate->addJobApplication($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidate(Candidate $candidate): self
+    {
+        if ($this->candidates->contains($candidate)) {
+            $this->candidates->removeElement($candidate);
+            $candidate->removeJobApplication($this);
+        }
 
         return $this;
     }
