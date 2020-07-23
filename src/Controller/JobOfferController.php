@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\JobOffer;
+use App\Entity\JobSector;
 use App\Form\JobOfferType;
 use App\Repository\JobOfferRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,13 +18,26 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class JobOfferController extends AbstractController
 {
     /**
-     * @Route("/", name="job_offer_index", methods={"GET"})
+     * @Route("/list", name="job_offer_index", methods={"GET"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function index(JobOfferRepository $jobOfferRepository): Response
     {
         return $this->render('job_offer/index.html.twig', [
             'job_offers' => $jobOfferRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/", name="jobOffers", methods={"GET"})
+     */
+    public function jobOffers(JobOfferRepository $jobOfferRepository): Response
+    {
+        $jobOffers = [new JobOffer()];
+        $jobSectors = [new JobSector()];
+        return $this->render('job_offer/job_offer.html.twig', [
+            'job_offers' => $jobOffers,
+            'job_sectors' => $jobSectors,
         ]);
     }
 

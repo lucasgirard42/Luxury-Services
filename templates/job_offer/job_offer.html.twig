@@ -37,12 +37,8 @@
                 <th>Description</th>
                 <th>Id</th>
                 <th>Job Type</th>
-
-                <th>Reference</th>
                 <th>Activity</th>
-                <th>Notes</th>
-                <th>DateCreation</th>
-                
+ 
             </tr>
         </thead>
         <tbody>
@@ -55,11 +51,7 @@
                 <td>{{ job_offer.description }}</td>
                 <td>{{ job_offer.id }}</td>
                 <td>{{ job_offer.jobType }}</td>
-                
-                <td>{{ job_offer.reference }}</td>
                 <td>{{ job_offer.activity }}</td>
-                <td>{{ job_offer.notes }}</td>
-                <td>{{ job_offer.dateCreation ? job_offer.dateCreation|date('Y-m-d') : '' }}</td>
             </tr>
         {% else %}
             <tr>
