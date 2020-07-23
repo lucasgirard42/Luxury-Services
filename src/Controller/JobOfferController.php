@@ -35,9 +35,12 @@ class JobOfferController extends AbstractController
     {
         $jobOffers = [new JobOffer()];
         $jobSectors = [new JobSector()];
+        $applications = [new JobOffer()];
         return $this->render('job_offer/job_offer.html.twig', [
             'job_offers' => $jobOffers,
             'job_sectors' => $jobSectors,
+            'applications' => $applications,
+
         ]);
     }
 

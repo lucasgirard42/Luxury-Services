@@ -4,6 +4,7 @@
 
 {% block body %}
     <h1>Job Offer</h1>
+    <h3>Job Sector</h3>
         <table class="table">
         <thead>
             <tr>
@@ -28,6 +29,7 @@
     </table>
 
     <table class="table">
+    <h3>Job Offer</h3>
         <thead>
             <tr>
                 <th>JobTitle</th>
@@ -56,6 +58,30 @@
         {% else %}
             <tr>
                 <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <h3>Application</h3>
+        <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+   
+            </tr>
+        </thead>
+        <tbody>
+        {% for application in applications %}
+            <tr>
+                <td>{{ application.id }}</td>
+                
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
