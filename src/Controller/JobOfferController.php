@@ -44,26 +44,26 @@ class JobOfferController extends AbstractController
         }
 
         $candidate = $user->getCandidate();
-
         
-        $jobOffers = $jobOfferRepository->findBy([],null,20,null);
+        
+        $jobOffers = $jobOfferRepository->findBy(['activity'=> true],null,20,null);
         $jobSectors = $jobsectorRepository->findAll();
         
-        dump($jobOffers);
+       
 
         foreach($jobOffers as $jobOffer)
         {
             $candidate->addJobApplication($jobOffer);
         }
         
-        dump($candidate);
+       
         $applications = [];
         if ($candidate instanceof Candidate){
             $applications = $candidate->getJobApplication();
         }
        
 
-        // $applications = $candidate->getJobApplication()use App\Entity\JobSector;
+
         
         return $this->render('job_offer/job_offer.html.twig', [
             'job_offers' => $jobOffers,

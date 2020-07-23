@@ -20,7 +20,7 @@ use Symfony\Entity\User;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/home", name="home")
+     * @Route("/", name="home")
      */
     public function index()
     {
@@ -28,7 +28,7 @@ class HomeController extends AbstractController
         // ->getRepository(Campaign::class)
         // ->findAll();
 
-        return $this->render('home/index.html.twig', [
+        return $this->render('luxury.html.twig', [
             'controller_name' => 'HomeController',
             // 'campaigns' => $campaigns,
         ]);

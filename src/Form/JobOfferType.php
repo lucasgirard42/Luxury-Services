@@ -6,6 +6,7 @@ use App\Entity\JobOffer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 
 class JobOfferType extends AbstractType
 {
@@ -18,9 +19,15 @@ class JobOfferType extends AbstractType
             ->add('notes')
             ->add('jobTitle')
             ->add('location')
-            ->add('closingDate')
+            ->add('closingDate', BirthdayType::class, [
+                'widget' => 'single_text',
+                'required' => 'false'
+            ])
             ->add('salary')
-            ->add('dateCreation')
+            ->add('dateCreation', BirthdayType::class, [
+                'widget' => 'single_text',
+                'required' => 'false'
+            ])
             ->add('client')
             ->add('jobSector')
             ->add('jobType')
