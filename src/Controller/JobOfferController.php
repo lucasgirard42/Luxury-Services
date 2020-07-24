@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 /**
  * @Route("/job/offer")
  */
@@ -139,4 +140,6 @@ class JobOfferController extends AbstractController
 
         return $this->redirectToRoute('job_offer_index');
     }
+
+
 }
